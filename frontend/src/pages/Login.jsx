@@ -160,6 +160,14 @@ export default function Login() {
           text-decoration: underline;
         }
 
+        .swinch-options {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 18px;
+        }
+
         .swinch-eye {
           position: absolute;
           right: 12px;
@@ -189,6 +197,21 @@ export default function Login() {
         @media (max-width: 768px) {
           .swinch-right-panel { display: none !important; }
           .swinch-left-panel { flex: none !important; width: 100% !important; min-height: 100vh !important; }
+
+          .swinch-options {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+          }
+
+          .swinch-forgot {
+            font-size: 12px;
+          }
+
+          .swinch-recaptcha {
+            transform: scale(0.92);
+            transform-origin: left top;
+          }
         }
       `}</style>
 
@@ -321,7 +344,7 @@ export default function Login() {
             </div>
 
             {/* Remember / Forgot */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+            <div className="swinch-options">
               <label style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 13, color: "#374151", cursor: "pointer" }}>
                 <input
                   type="checkbox"
@@ -335,7 +358,7 @@ export default function Login() {
             </div>
 
             {/* reCAPTCHA real */}
-            <div style={{ marginBottom: 18 }}>
+            <div className="swinch-recaptcha" style={{ marginBottom: 18 }}>
               <ReCAPTCHA
                 sitekey="6LdQNMksAAAAAM6ecTaez0LdmRzNnVGP7riV9SAd"
                 onChange={(token) => setCaptchaToken(token)}
@@ -343,7 +366,11 @@ export default function Login() {
             </div>
 
             {/* Submit */}
-            <button type="submit" className="swinch-btn-login" disabled={loading}>
+            <button
+              type="submit"
+              className="swinch-btn-login"
+              disabled={loading || !captchaToken}
+            >
               <span>{loading ? "Ingresando..." : "INGRESAR"}</span>
               {!loading && (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
