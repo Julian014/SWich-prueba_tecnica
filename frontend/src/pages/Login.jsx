@@ -20,6 +20,14 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    const failedAttempts = Number(localStorage.getItem("failedAttempts") || 0);
+    const blockedUntil = localStorage.getItem("blockedUntil");
+
+    if (blockedUntil && new Date(blockedUntil) > new Date()) {
+      setError("Cuenta bloqueada temporalmente por 3 intentos fallidos. Intenta más tarde.");
+      return;
+    }
+
     setError("");
     setLoading(true);
 
@@ -33,12 +41,26 @@ export default function Login() {
       const res = await loginRequest(email, password);
 
       if (!res.ok) {
-        setError(res.message || "Error al iniciar sesión");
+        const attempts = failedAttempts + 1;
+        localStorage.setItem("failedAttempts", attempts);
+
+        if (attempts >= 3) {
+          const blockedTime = new Date(Date.now() + 15 * 60 * 1000);
+          localStorage.setItem("blockedUntil", blockedTime.toISOString());
+          setError("Cuenta bloqueada por 15 minutos por múltiples intentos fallidos.");
+          return;
+        }
+
+        setError(
+          `${res.message || "Error al iniciar sesión"}. Intento ${attempts} de 3`
+        );
         return;
       }
 
       // ✅ guardar token
       localStorage.setItem("token", res.token);
+      localStorage.removeItem("failedAttempts");
+      localStorage.removeItem("blockedUntil");
 
       // opcional: guardar usuario
       localStorage.setItem("user", JSON.stringify({ email }));
