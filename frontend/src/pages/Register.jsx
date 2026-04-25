@@ -48,7 +48,7 @@ export default function Register() {
       setPassword("");
       setConfirmPassword("");
       setTermsAccepted(false);
-    } catch (err) {
+    } catch {
       setError("Error de conexión con el servidor");
     } finally {
       setLoading(false);

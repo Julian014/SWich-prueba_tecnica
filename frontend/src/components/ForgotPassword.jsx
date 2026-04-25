@@ -3,12 +3,41 @@ import { useState } from "react";
 export default function ForgotPassword({ onClose }) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(
-      "Si el correo existe, te enviaremos un enlace de recuperación."
-    );
+    setLoading(true);
+    setError("");
+    setMessage("");
+    console.log("Sending forgot password request:", email);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/forgot-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+      console.log("Response status:", response.status);
+      console.log("Response data:", data);
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error sending recovery email");
+      }
+
+      setMessage(data.message);
+      setEmail("");
+    } catch (err) {
+      console.error("Forgot password error:", err);
+      setError(err.message || "Server connection error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,7 +79,7 @@ export default function ForgotPassword({ onClose }) {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit}>
+      <div>
         <input
           type="email"
           placeholder="Correo electrónico"
@@ -76,7 +105,8 @@ export default function ForgotPassword({ onClose }) {
           }}
         >
           <button
-            type="submit"
+            type="button"
+            onClick={handleSubmit}
             style={{
               flex: 1,
               padding: "12px",
@@ -91,7 +121,7 @@ export default function ForgotPassword({ onClose }) {
               boxShadow: "0 4px 15px rgba(20,83,45,.20)"
             }}
           >
-            Enviar enlace
+            {loading ? "Enviando..." : "Enviar enlace"}
           </button>
 
           <button
@@ -110,7 +140,23 @@ export default function ForgotPassword({ onClose }) {
             Cerrar
           </button>
         </div>
-      </form>
+      </div>
+
+      {error && (
+        <div
+          style={{
+            marginTop: 14,
+            padding: "12px",
+            borderRadius: 12,
+            background: "#FEF2F2",
+            color: "#991B1B",
+            fontSize: 13,
+            border: "1px solid #FECACA"
+          }}
+        >
+          {error}
+        </div>
+      )}
 
       {/* Success message */}
       {message && (
