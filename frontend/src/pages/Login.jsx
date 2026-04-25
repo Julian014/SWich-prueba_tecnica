@@ -57,8 +57,13 @@ export default function Login() {
         return;
       }
 
-      // ✅ guardar token
+      // ✅ guardar token y expiración de sesión
       localStorage.setItem("token", res.token);
+      localStorage.setItem(
+        "sessionExpiresAt",
+        new Date(Date.now() + 15 * 60 * 1000).toISOString()
+      );
+
       localStorage.removeItem("failedAttempts");
       localStorage.removeItem("blockedUntil");
 
@@ -66,7 +71,7 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify({ email }));
 
       // ✅ feedback visual
-      alert("Login exitoso 🚀");
+     navigate("/home");
 
     } catch (err) {
       setError(err.message || "Error de conexión con el servidor");
