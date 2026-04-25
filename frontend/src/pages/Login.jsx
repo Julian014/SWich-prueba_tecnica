@@ -191,6 +191,25 @@ export default function Login() {
           background: rgba(255,255,255,0.12);
         }
 
+        .swinch-mobile-register {
+          display: none;
+          width: 100%;
+          margin-bottom: 18px;
+        }
+
+        .swinch-mobile-register button {
+          width: 100%;
+          padding: 12px;
+          border-radius: 12px;
+          border: 1.5px solid #14532D;
+          background: transparent;
+          color: #14532D;
+          font-size: 14px;
+          font-family: 'Sora', sans-serif;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
         .swinch-forgot {
           font-size: 13px;
           color: #14532D;
@@ -237,6 +256,9 @@ export default function Login() {
 
         @media (max-width: 768px) {
           .swinch-right-panel { display: none !important; }
+          .swinch-mobile-register {
+            display: block !important;
+          }
           .swinch-left-panel { flex: none !important; width: 100% !important; min-height: 100vh !important; }
 
           .swinch-options {
@@ -299,6 +321,12 @@ export default function Login() {
               <div style={{ fontWeight: 700, fontSize: 17, color: "#14532D", lineHeight: 1 }}>SWinch</div>
               <div style={{ fontSize: 8, letterSpacing: "3px", color: "#9CA3AF", fontWeight: 600, marginTop: 2 }}>SANDWICHES</div>
             </div>
+          </div>
+          {/* Botón registro visible en móvil */}
+          <div className="swinch-mobile-register">
+            <button onClick={() => navigate("/register")}>
+              Crear cuenta
+            </button>
           </div>
 
           {/* Avatar */}
