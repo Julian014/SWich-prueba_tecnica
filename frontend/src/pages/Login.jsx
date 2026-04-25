@@ -40,7 +40,19 @@ export default function Login() {
     try {
       const res = await loginRequest(email, password);
 
+      // Manejar expiración de contraseña
+      if (res.error === "PASSWORD_EXPIRED") {
+        setError(res.message || "Debes cambiar tu contraseña");
+
+        // redirigir al flujo de restablecimiento obligatorio
+        navigate("/reset-password/expired", {
+          state: { email }
+        });
+        return;
+      }
+
       if (!res.ok) {
+        // no contar intentos cuando la contraseña expiró
         const attempts = failedAttempts + 1;
         localStorage.setItem("failedAttempts", attempts);
 
