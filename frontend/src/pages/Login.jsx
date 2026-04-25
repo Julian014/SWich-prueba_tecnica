@@ -337,7 +337,7 @@ export default function Login() {
             {/* reCAPTCHA real */}
             <div style={{ marginBottom: 18 }}>
               <ReCAPTCHA
-                sitekey="6LfgMcksAAAAAAAjQP098NHMi2DjjdAV7wm2FEbl"
+                sitekey="6LdQNMksAAAAAM6ecTaez0LdmRzNnVGP7riV9SAd"
                 onChange={(token) => setCaptchaToken(token)}
               />
             </div>
