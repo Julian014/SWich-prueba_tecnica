@@ -259,7 +259,22 @@ export default function Login() {
           .swinch-mobile-register {
             display: block !important;
           }
-          .swinch-left-panel { flex: none !important; width: 100% !important; min-height: 100vh !important; }
+          .swinch-left-panel {
+            flex: none !important;
+            width: 100% !important;
+            min-height: auto !important;
+            padding: 30px 20px !important;
+          }
+
+          .swinch-recaptcha {
+            transform: scale(0.85);
+            transform-origin: left top;
+            margin-bottom: 10px;
+          }
+
+          .swinch-btn-login {
+            margin-top: 12px;
+          }
 
           .swinch-options {
             flex-direction: column;
@@ -270,18 +285,14 @@ export default function Login() {
           .swinch-forgot {
             font-size: 12px;
           }
-
-          .swinch-recaptcha {
-            transform: scale(0.92);
-            transform-origin: left top;
-          }
         }
       `}</style>
 
       <div style={{
         width: "100%",
         maxWidth: 1100,
-        height: "700px",
+        minHeight: "700px",
+        height: "auto",
         display: "flex",
         borderRadius: 24,
         overflow: "hidden",
