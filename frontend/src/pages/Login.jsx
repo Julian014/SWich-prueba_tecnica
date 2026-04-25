@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../services/auth.service";
+import ForgotPassword from "../components/ForgotPassword";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -354,8 +356,19 @@ export default function Login() {
                 />
                 Recordarme
               </label>
-              <a href="#" className="swinch-forgot">¿Olvidaste tu contraseña?</a>
+              <button
+                type="button"
+                className="swinch-forgot"
+                onClick={() => setShowForgotPassword(true)}
+                style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
             </div>
+
+            {showForgotPassword && (
+              <ForgotPassword onClose={() => setShowForgotPassword(false)} />
+            )}
 
             {/* reCAPTCHA real */}
             <div className="swinch-recaptcha" style={{ marginBottom: 18 }}>
@@ -380,6 +393,7 @@ export default function Login() {
               )}
             </button>
           </form>
+
 
 
         </div>
