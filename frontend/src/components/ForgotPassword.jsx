@@ -14,7 +14,7 @@ export default function ForgotPassword({ onClose }) {
     console.log("Sending forgot password request:", email);
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/forgot-password", {
+      const response = await fetch("https://soluxinnovations.com/api/auth/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
